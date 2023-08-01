@@ -5,7 +5,7 @@ import { Textfield } from "@/components/inputs/Textfield";
 import Link from "next/link";
 import { MdAttachMoney } from "react-icons/md";
 
-export default function WithdrawnPage() {
+export default function WithdrawPage() {
   return (
     <main className="grid min-h-screen place-content-center p-4 bg-teal-200">
       <div className="bg-teal-700 rounded-3xl mb-4 p-8 text-teal-50">

@@ -22,7 +22,7 @@ export default function Account() {
           <Link href='/account/deposit' className="w-full bg-yellow-500 font-bold text-white rounded-full mt-4 flex justify-center items-center py-4 lg:py-8 text-2xl cursor-pointer hover:brightness-75">
             Deposit
           </Link>
-          <Link href='/account/withdrawn' className="w-full bg-pink-500 font-bold text-white rounded-full mt-4 flex justify-center items-center py-4 lg:py-8 text-2xl cursor-pointer hover:brightness-75">
+          <Link href='/account/withdraw' className="w-full bg-pink-500 font-bold text-white rounded-full mt-4 flex justify-center items-center py-4 lg:py-8 text-2xl cursor-pointer hover:brightness-75">
             Withdraw
           </Link>
         </div>
