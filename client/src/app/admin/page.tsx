@@ -1,9 +1,13 @@
+'use client';
+
 import { Button } from "@/components/inputs/Button";
 import { Textfield } from "@/components/inputs/Textfield";
+import { useBanknotes } from "@/hooks/useBanknotes";
 import Link from "next/link";
 import { MdDelete } from "react-icons/md";
 
 export default function AdminPage() {
+  const { notesAmount, saveNotesAmount, setNotesAmount } = useBanknotes();
 
   return (
     <main className="grid min-h-screen place-content-center p-4 bg-teal-200">
@@ -15,12 +19,12 @@ export default function AdminPage() {
         </h1>
         <h2 className="text-teal-100 mb-4 uppercase">Amount of notes</h2>
         <form className="grid gap-2 grid-cols-2 grid-rows-2">
-          <Textfield label="R$ 100" />
-          <Textfield label="R$ 50" />
-          <Textfield label="R$ 20" />
-          <Textfield label="R$ 5" />
+          <Textfield type="number" label="R$ 100" value={notesAmount[100]} onChange={e => setNotesAmount(val => ({ ...val, '100': +e.target.value }))} />
+          <Textfield type="number" label="R$ 50" value={notesAmount[50]} onChange={e => setNotesAmount(val => ({ ...val, '50': +e.target.value }))} />
+          <Textfield type="number" label="R$ 20" value={notesAmount[20]} onChange={e => setNotesAmount(val => ({ ...val, '20': +e.target.value }))} />
+          <Textfield type="number" label="R$ 10" value={notesAmount[10]} onChange={e => setNotesAmount(val => ({ ...val, '10': +e.target.value }))} />
           <div className="col-span-2 mt-2">
-            <Button>
+            <Button onClick={saveNotesAmount}>
               Save update
             </Button>
           </div>

@@ -20,7 +20,7 @@ const buttonTypes = {
 
 export function Button({ children, variant = 'primary', customClass = "", isLoading = false, ...rest }: ButtonProps) {
   return (
-    <button className={`${customClass} ${buttonTypes[variant]} flex justify-center w-full font-bold rounded-full px-4 py-2 duration-200 cursor-pointer hover:brightness-75`} {...rest}>
+    <button type='button' className={`${customClass} ${buttonTypes[variant]} flex justify-center w-full font-bold rounded-full px-4 py-2 duration-200 cursor-pointer hover:brightness-75`} {...rest}>
       {isLoading ? <CgSpinner size='1.5rem' className="animate-spin" /> : children}
     </ button>
   )
