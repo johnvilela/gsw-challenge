@@ -41,5 +41,6 @@ npm run test:cov --workspace=client
 ## TODO
 
 - [ ] Adicionar configuração correta do mongodb no docker para funcionar com o prismaJs
+- [ ] Remover url do cluster do mongo atlas (mantido apenas por questão de facilidade para teste)
 - [ ] Adicionar testes nos custom hooks do client
 - [ ] Ajustar as páginas de erro do client
