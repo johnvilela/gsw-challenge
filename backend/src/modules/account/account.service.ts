@@ -24,7 +24,7 @@ export class AccountService {
   async findByUser(userId: string) {
     return this.prisma.account.findUnique({
       where: { userId },
-      select: {
+      include: {
         movements: true,
       },
     });

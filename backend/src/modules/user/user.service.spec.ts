@@ -28,7 +28,16 @@ describe('UserService', () => {
 
       const result = await service.create(user);
 
-      expect(prismaService.user.create).toHaveBeenCalledWith({ data: user });
+      expect(prismaService.user.create).toHaveBeenCalledWith({
+        data: {
+          ...user,
+          account: {
+            create: {
+              totalValue: 10000,
+            },
+          },
+        },
+      });
       expect(result).toEqual(user);
     });
   });

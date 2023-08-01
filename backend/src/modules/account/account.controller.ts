@@ -8,7 +8,7 @@ export class AccountController {
   constructor(private accountService: AccountService) {}
 
   @Get(':userId')
-  @ApiParam({ name: 'userId', type: 'number' })
+  @ApiParam({ name: 'userId' })
   @ApiOkResponse({ description: 'Accounts found' })
   async findByUser(@Param('userId') userId: string) {
     return this.accountService.findByUser(userId);

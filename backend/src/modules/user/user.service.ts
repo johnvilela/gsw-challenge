@@ -8,7 +8,14 @@ export class UserService {
 
   async create(data: CreateUserDTO) {
     return this.prisma.user.create({
-      data,
+      data: {
+        ...data,
+        account: {
+          create: {
+            totalValue: 10000,
+          },
+        },
+      },
     });
   }
 
@@ -16,6 +23,13 @@ export class UserService {
     return this.prisma.user.findUnique({
       where: {
         email,
+      },
+      include: {
+        account: {
+          include: {
+            movements: true,
+          },
+        },
       },
     });
   }
