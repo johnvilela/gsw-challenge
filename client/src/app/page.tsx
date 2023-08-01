@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/inputs/Button";
 import { Textfield } from "@/components/inputs/Textfield";
-import { useUsers } from "@/hooks/useUsers";
+import { useUsers } from "../hooks/useUsers";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useRef } from "react";

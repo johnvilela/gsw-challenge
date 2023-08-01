@@ -22,13 +22,13 @@ export default function AdminPage() {
           </strong>
         </h1>
         <h2 className="text-teal-100 mb-4 uppercase">Amount of notes</h2>
-        <form data-testid='banknotes-form' className="grid gap-2 grid-cols-2 grid-rows-2" onSubmit={saveNotesAmount}>
+        <form className="grid gap-2 grid-cols-2 grid-rows-2">
           <Textfield type="number" id='100' label="R$ 100" value={notesAmount[100]} onChange={e => setNotesAmount(val => ({ ...val, '100': +e.target.value }))} />
           <Textfield type="number" id='50' label="R$ 50" value={notesAmount[50]} onChange={e => setNotesAmount(val => ({ ...val, '50': +e.target.value }))} />
           <Textfield type="number" id='20' label="R$ 20" value={notesAmount[20]} onChange={e => setNotesAmount(val => ({ ...val, '20': +e.target.value }))} />
           <Textfield type="number" id='10' label="R$ 10" value={notesAmount[10]} onChange={e => setNotesAmount(val => ({ ...val, '10': +e.target.value }))} />
           <div className="col-span-2 mt-2">
-            <Button type='submit'>
+            <Button type='button' onClick={saveNotesAmount}>
               Save update
             </Button>
           </div>
@@ -38,11 +38,11 @@ export default function AdminPage() {
 
         <h2 className="text-teal-100 mb-4 uppercase">Manage users</h2>
 
-        <form className="grid gap-2 grid-cols-2 grid-rows-2" onSubmit={() => createUser({ ...userRef.current })}>
+        <form className="grid gap-2 grid-cols-2 grid-rows-2" >
           <Textfield type='text' data-testid='name' placeholder="Name" onChange={e => userRef.current.name = e.target.value} />
           <Textfield type='email' data-testid='email' placeholder="Email" onChange={e => userRef.current.email = e.target.value} />
           <div className="col-span-2 mt-2">
-            <Button type="submit">
+            <Button type="button" onClick={() => createUser({ ...userRef.current })}>
               Create user
             </Button>
           </div>
