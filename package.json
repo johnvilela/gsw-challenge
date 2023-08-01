@@ -1,0 +1,13 @@
+{
+  "name": "gsw-challenge",
+  "version": "0.1.0",
+  "workspaces": [
+    "backend",
+    "client"
+  ],
+  "scripts": {
+    "mongodb:create": "docker run --name gsw-challenge -p 27017:27017 -d mongo",
+    "postgres:start": "docker start gsw-challenge"
+  },
+  "author": "John Vilela"
+}
