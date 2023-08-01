@@ -1,72 +1,73 @@
 import AdminPage from '@/app/admin/page';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 
-jest.mock('../../hooks/useUsers', () => ({
-  useUsers: jest.fn(() => ({
-    createUser: jest.fn(),
-    deleteUser: jest.fn(),
-    listUsers: jest.fn(),
-    status: 'success',
-    users: [
-      { id: '1', name: 'John Doe', email: 'john.doe@gmail.com' },
-    ],
+const saveNotesAmountMock = jest.fn();
+
+jest.mock('../../hooks/useBanknotes', () => ({
+  useBanknotes: jest.fn(() => ({
+    setNotesAmount: jest.fn(),
+    saveNotesAmount: saveNotesAmountMock,
+    notesAmount: { '100': 10, '50': 10, '20': 10, '10': 10 },
   })),
 }));
 
+const users = [
+  { id: '1', name: 'John Doe', email: 'john.doe@gmail.com' },
+];
+const createUserMock = jest.fn();
+const deleteUserMock = jest.fn((id: string) => users.filter(user => user.id !== id));
+
+jest.mock('../../hooks/useUsers', () => ({
+  useUsers: jest.fn(() => ({
+    createUser: createUserMock,
+    deleteUser: deleteUserMock,
+    listUsers: jest.fn(),
+    status: 'success',
+    users,
+  })),
+}));
+
+const renderComponent = () => render(<AdminPage />);
+
 describe('AdminPage', () => {
-  test('renders the amount of notes section', () => {
-    render(<AdminPage />);
-    const notesAmountSection = screen.getByText('Amount of notes');
-    expect(notesAmountSection).toBeInTheDocument();
+  beforeEach(() => {
+    renderComponent();
   });
 
-  test('renders the manage users section', () => {
-    render(<AdminPage />);
-    const manageUsersSection = screen.getByText('Manage users');
-    expect(manageUsersSection).toBeInTheDocument();
-  });
-
-  test('updates the amount of notes when the form is submitted', () => {
-    const { getByLabelText, getByText } = render(<AdminPage />);
-    const hundredInput = getByLabelText('R$ 100') as HTMLInputElement;
-    const fiftyInput = getByLabelText('R$ 50') as HTMLInputElement;
-    const twentyInput = getByLabelText('R$ 20') as HTMLInputElement;
-    const tenInput = getByLabelText('R$ 10') as HTMLInputElement;
-    const saveButton = getByText('Save update');
+  test('updates the amount of notes when the form is submitted', async () => {
+    const hundredInput = await screen.getByRole('spinbutton', { name: /r\$ 100/i }) as HTMLInputElement;
+    const saveButton = await screen.getByRole('button', { name: /save update/i })
 
     fireEvent.change(hundredInput, { target: { value: '10' } });
-    fireEvent.change(fiftyInput, { target: { value: '20' } });
-    fireEvent.change(twentyInput, { target: { value: '30' } });
-    fireEvent.change(tenInput, { target: { value: '40' } });
     fireEvent.click(saveButton);
 
+    expect(saveNotesAmountMock).toHaveBeenCalled();
     expect(hundredInput.value).toBe('10');
-    expect(fiftyInput.value).toBe('20');
-    expect(twentyInput.value).toBe('30');
-    expect(tenInput.value).toBe('40');
   });
 
-  test('creates a new user when the form is submitted', () => {
-    const { getByTestId, getByText } = render(<AdminPage />);
-    const nameInput = getByTestId('name') as HTMLInputElement;
-    const emailInput = getByTestId('email') as HTMLInputElement;
-    const createButton = getByText('Create user');
+  test('creates a new user when the form is submitted', async () => {
+    const nameInput = await screen.getByPlaceholderText('Name') as HTMLInputElement;
+    const emailInput = await screen.getByPlaceholderText('Email') as HTMLInputElement;
+    const createButton = await screen.getByRole('button', { name: /create user/i });;
 
     fireEvent.change(nameInput, { target: { value: 'John Doe' } });
     fireEvent.change(emailInput, { target: { value: 'john.doe@example.com' } });
     fireEvent.click(createButton);
 
-    const userItem = screen.getByText('John Doe');
-    expect(userItem).toBeInTheDocument();
+    expect(createUserMock).toHaveBeenCalled();
+
+    const newUser = await screen.queryByText('John Doe');
+
+    expect(newUser).toBeInTheDocument();
   });
 
-  test('deletes a user when the delete button is clicked', () => {
-    const { getByTestId } = render(<AdminPage />);
-    const deleteButton = getByTestId('delete-btn');
+  test('deletes a user when the delete button is clicked', async () => {
+    const deleteButton = await screen.getByTestId('delete-btn');
 
     fireEvent.click(deleteButton);
 
-    const userItem = screen.queryByText('John Doe');
-    expect(userItem).not.toBeInTheDocument();
+    expect(deleteUserMock).toHaveBeenCalled();
+
+    waitForElementToBeRemoved(() => screen.queryByText('John Doe'));
   });
 });

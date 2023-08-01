@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/inputs/Button";
 import { Textfield } from "@/components/inputs/Textfield";
-import { useBanknotes } from "@/hooks/useBanknotes";
+import { useBanknotes } from "../../hooks/useBanknotes";
 import { useUsers } from "../../hooks/useUsers";
 import Link from "next/link";
 import { useRef } from "react";
@@ -22,7 +22,7 @@ export default function AdminPage() {
           </strong>
         </h1>
         <h2 className="text-teal-100 mb-4 uppercase">Amount of notes</h2>
-        <form className="grid gap-2 grid-cols-2 grid-rows-2" onSubmit={saveNotesAmount}>
+        <form data-testid='banknotes-form' className="grid gap-2 grid-cols-2 grid-rows-2" onSubmit={saveNotesAmount}>
           <Textfield type="number" id='100' label="R$ 100" value={notesAmount[100]} onChange={e => setNotesAmount(val => ({ ...val, '100': +e.target.value }))} />
           <Textfield type="number" id='50' label="R$ 50" value={notesAmount[50]} onChange={e => setNotesAmount(val => ({ ...val, '50': +e.target.value }))} />
           <Textfield type="number" id='20' label="R$ 20" value={notesAmount[20]} onChange={e => setNotesAmount(val => ({ ...val, '20': +e.target.value }))} />
@@ -38,33 +38,28 @@ export default function AdminPage() {
 
         <h2 className="text-teal-100 mb-4 uppercase">Manage users</h2>
 
-        {status === 'loading' && (<p className="text-teal-100">Loading users...</p>)}
+        <form className="grid gap-2 grid-cols-2 grid-rows-2" onSubmit={() => createUser({ ...userRef.current })}>
+          <Textfield type='text' data-testid='name' placeholder="Name" onChange={e => userRef.current.name = e.target.value} />
+          <Textfield type='email' data-testid='email' placeholder="Email" onChange={e => userRef.current.email = e.target.value} />
+          <div className="col-span-2 mt-2">
+            <Button type="submit">
+              Create user
+            </Button>
+          </div>
+        </form>
 
-        {status === 'success' && (<>
-          <form className="grid gap-2 grid-cols-2 grid-rows-2" onSubmit={() => createUser({ ...userRef.current })}>
-            <Textfield type='text' data-testid='name' placeholder="Name" onChange={e => userRef.current.name = e.target.value} />
-            <Textfield type='email' data-testid='email' placeholder="Email" onChange={e => userRef.current.email = e.target.value} />
-            <div className="col-span-2 mt-2">
-              <Button type="submit">
-                Create user
-              </Button>
-            </div>
-          </form>
+        <h3 className="text-teal-100 mt-8 uppercase">User list</h3>
 
-          <h3 className="text-teal-100 mt-8 uppercase">User list</h3>
-
-          <ul>
-            {users.map(user => (
-              <li key={user.id} className="py-4 border-b last:border-b-0 border-teal-300 flex justify-between items-center text-teal-100">
-                <p>{user.name}</p>
-                <button type='button' data-testid='delete-btn' onClick={() => deleteUser(user.id)}>
-                  <MdDelete size='1.5rem' />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </>
-        )}
+        <ul>
+          {users.map(user => (
+            <li key={user.id} className="py-4 border-b last:border-b-0 border-teal-300 flex justify-between items-center text-teal-100">
+              <p>{user.name}</p>
+              <button type='button' data-testid='delete-btn' onClick={() => deleteUser(user.id)}>
+                <MdDelete size='1.5rem' />
+              </button>
+            </li>
+          ))}
+        </ul>
 
         <div className="w-full border-b-2 border-teal-100 my-12" />
 
