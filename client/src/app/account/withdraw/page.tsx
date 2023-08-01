@@ -66,7 +66,7 @@ export default function WithdrawPage() {
             </ul>
             <div className="flex justify-between font-bold border-t border-teal-50 py-2 mt-2">
               <p>Total</p>
-              <p>R${withdrawResult.value.toLocaleString('pt-BR')}</p>
+              <p>R$ {withdrawResult.value.toLocaleString('pt-BR')}</p>
             </div>
             <Button type='button' onClick={() => setWithdrawResult(null)} customClass="mt-4">
               Create another withdraw
