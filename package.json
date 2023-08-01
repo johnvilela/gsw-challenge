@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "mongodb:create": "docker run --name gsw-challenge -p 27017:27017 -d mongo:latest",
-    "postgres:start": "docker start gsw-challenge"
+    "mongodb:start": "docker start gsw-challenge"
   },
   "author": "John Vilela"
 }
