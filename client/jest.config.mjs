@@ -16,7 +16,12 @@ const config = {
     './src/app/**/*.{js,jsx,ts,tsx}',
     './src/components/**/*.{js,jsx,ts,tsx}',
     '!**/*.spec.ts',
-  ]
+  ],
+  // TODO: Fix this when NextJS release a fix for this issue
+  coveragePathIgnorePatterns: [
+    './src/app/layout.ts'
+  ],
+  testPathIgnorePatterns: ['/.next/', '/dist/', '/src/app/layout.tsx']
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
