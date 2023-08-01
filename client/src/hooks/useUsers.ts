@@ -44,6 +44,19 @@ export function useUsers() {
     }
   }
 
+  async function findByEmail(email: string) {
+    setStatus('loading')
+    try {
+      const res = (await Api.get(`/user/email?email=${encodeURIComponent(email)}`)).data
+      setStatus('success')
+
+      return res
+    } catch (error) {
+      setStatus('error')
+      throw error
+    }
+  }
+
   useEffect(() => {
     listUsers()
   }, [])
@@ -53,6 +66,7 @@ export function useUsers() {
     users,
     createUser,
     listUsers,
-    deleteUser
+    deleteUser,
+    findByEmail
   }
 }
