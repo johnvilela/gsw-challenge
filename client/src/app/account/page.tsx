@@ -1,12 +1,11 @@
 'use client';
 
-import { Button } from "@/components/inputs/Button";
 import { useAccount } from "@/hooks/useAccount";
 import { ACCOUNT_MOVEMENT_TYPE } from "@/types/AccountMovement";
 import Link from "next/link";
 import { HiOutlineArrowTrendingDown, HiOutlineArrowTrendingUp } from "react-icons/hi2";
 
-export default function Account() {
+export default function AccountPage() {
   const { userAccount } = useAccount();
 
   function formatDate(value: string | Date) {
@@ -24,7 +23,7 @@ export default function Account() {
     <main className="grid min-h-screen grid-cols-1 grid-rows-3 lg:grid-rows-1 lg:grid-cols-3 p-4 bg-teal-200">
       <section className="col-span-1 flex flex-col justify-between bg-teal-700 rounded-3xl p-8">
         <div>
-          <h1 className="text-xl text-teal-200 mb-8">Welcome <strong>{useAccount.name}</strong>!</h1>
+          <h1 className="text-xl text-teal-200 mb-8">Welcome <strong> {userAccount?.name} </strong>!</h1>
           <p className="text-xl text-teal-200">Your balance is: <br />
             <strong className="text-5xl text-teal-100">{`R$ ${userAccount?.account?.totalValue.toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 2 }) || '0,00'}`}</strong>
           </p>
